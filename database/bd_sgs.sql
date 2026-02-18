@@ -73,7 +73,7 @@ CREATE TABLE sinistros (
     valor_indenizado DECIMAL(10, 2), -- Valor efetivamente indenizado pela seguradora   
     cobertura_aplicada TEXT, -- Descrição da cobertura aplicada ao sinistro
     observacoes TEXT, -- Campo para observações adicionais sobre o sinistro
-    arquivo_comprovante VARCHAR(255), -- Caminho para o arquivo do comprovante
+    arquivos_sinistro VARCHAR(255), -- Caminho para o arquivo do comprovante
     FOREIGN KEY (apolice_id) REFERENCES apolices(id) 
 );
 
