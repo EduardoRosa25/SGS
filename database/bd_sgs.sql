@@ -6,7 +6,7 @@ CREATE TABLE usuarios (
     nome VARCHAR(200) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     senha VARCHAR(255) NOT NULL, -- Armazenar a senha via hash, por isso o campo longo
-    perfil ENUM('admin', 'corretor', 'cliente') NOT NULL, --- Adiciona o campo perfil para diferenciar os tipos de usuários cliente = segurado
+    perfil ENUM('admin', 'corretor', 'cliente') NOT NULL, -- Adiciona o campo perfil para diferenciar os tipos de usuários cliente = segurado
     data_cadastro DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 

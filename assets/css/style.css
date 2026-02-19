@@ -1,0 +1,36 @@
+/* =============================
+   LOGIN
+   ============================= */
+
+/* Fundo geral da página */
+body {
+    background-color: #e9ecef; /* Um cinza bem suave, padrão de sistemas */
+    height: 100vh; /* Ocupa 100% da altura da tela */
+    display: flex;
+    flex-direction: column; /* Organiza: Menu em cima, Resto embaixo */
+}
+
+/* Ajuste do container de login para centralizar */
+.login-container {
+    flex: 1; /* Ocupa todo o espaço que sobrar abaixo do menu */
+    display: flex;
+    justify-content: center; /* Centraliza na horizontal */
+    align-items: center;     /* Centraliza na vertical */
+    padding: 20px;
+}
+
+/* A "Caixa" do login (O seu antigo .login-box) */
+.card-login {
+    width: 100%;
+    max-width: 400px; /* Não deixa ficar gigante em telas grandes */
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    /* Sombra suave para dar profundidade (efeito 3D) */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+}
+
+/* Personalização do Menu para ficar escuro e profissional */
+.navbar-custom {
+    background-color: #1a1a1a;
+}
