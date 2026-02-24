@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // Verifica a senha (na prática, aqui deveria ser password_verify() com hash, mas para o trabalho vamos comparar direto
-    if ($usuario && $usuario['senha'] == $senha) {
+    if ($usuario && password_verify($senha, $usuario['senha'])) {  //($usuario && $usuario['senha'] == $senha) {
         $_SESSION['usuario_id'] = $usuario['id'];
         $_SESSION['usuario_nome'] = $usuario['nome'];
         $_SESSION['usuario_perfil'] = $usuario['perfil'];
@@ -78,8 +78,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <button type="submit" class="btn btn-primary w-100 mt-2">Entrar</button>
-                
+
                 <div class="text-center mt-3">
+                    <span class="text-muted">Não tem uma conta?</span> 
+                    <a href="cadastro.php" class="text-decoration-none fw-bold">Criar novo usuário</a>
+                </div>
+
+                <div class="text-center mt-2">
                     <small class="text-muted">Esqueceu a senha? Contate o TI.</small>
                 </div>
             </form>
