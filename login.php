@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['usuario_nome'] = $usuario['nome'];
         $_SESSION['usuario_perfil'] = $usuario['perfil'];
 
-        header('Location: pages/dashboard.php');
+        header('Location: index.html');
         exit;
     } else {
         $erro = "Acesso negado: E-mail ou senha incorretos.";
@@ -77,7 +77,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                            placeholder="Digite sua senha" required>
                 </div>
 
-                <button type="submit" class="btn btn-primary w-100 mt-2">Entrar</button>
+                <div class="d-grid gap-2 d-md-flex mt-2">
+                    <button type="submit" class="btn btn-primary flex-md-grow-1">Entrar</button>
+                    <a href="pages/dashboard.php" class="btn btn-info">Visualizar Dashboards</a>
+                </div>
 
                 <div class="text-center mt-3">
                     <span class="text-muted">Não tem uma conta?</span> 

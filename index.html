@@ -1,31 +1,178 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SGS - Sistema de Gestão de Seguros</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        :root {
+            --primary-color: #0056b3;
+            --secondary-color: #f4f7f6;
+            --text-color: #333;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--secondary-color);
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header-content {
+            flex: 1;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        header p {
+            font-size: 1.2rem;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+        .user-info {
+            color: white;
+            font-size: 0.9rem;
+            display: none;
+        }
+        .user-info.show {
+            display: block;
+        }
+        .user-info strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .cta-container {
+            text-align: center;
+            margin-top: 2rem;
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #004494;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background-color: #17a2b8;
+        }
+        .btn-secondary:hover {
+            background-color: #138496;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+        }
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+    </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-dark bg-dark">
-        <div class="container-fluid">
-            <span class="navbar-brand mb-0 h1">SGS - Gestão de Seguros</span>
-            <div>
-                <a href="login.php" class="btn btn-outline-light">Entrar no Sistema</a>
-            </div>
+    <header>
+        <div class="header-content">
+            <h1>Sistema de Gestão de Seguros (SGS)</h1>
+            <p>Plataforma centralizada, segura e escalável para a gestão de seguros corporativos.</p>
         </div>
-    </nav>
- 
-    <div class="container mt-5">
-        <div class="alert alert-success" role="alert">
-            Ambiente configurado com sucesso! Bootstrap funcionando.
+        <div class="user-info" id="userInfo">
+            <strong>Bem-vindo!</strong>
+            <span id="userName"></span>
         </div>
-        <h1>Bem-vindo ao SGS</h1>
-        <p>Sistema centralizado para gestão de seguros corporativos.</p>
+    </header>
+
+    <div class="container">
+        <section>
+            <h2>Sobre o Sistema</h2>
+            <p>O SGS tem como objetivo modernizar e otimizar o processo de seguros corporativos. No cenário atual, a gestão de seguros em empresas de médio e grande porte costuma ser um processo manual, fragmentado e com uso intensivo de planilhas[cite: 5, 6]. Nossa solução visa substituir esse controle manual por uma plataforma inteligente que automatiza tarefas e oferece suporte à tomada de decisões[cite: 15].</p>
+        </section>
+
+        <section>
+            <h2>Objetivos e Funcionalidades</h2>
+            <p>O sistema foi projetado para gerenciar de ponta a ponta o ciclo de vida dos seguros, contando com:</p>
+            <ul>
+                <li><strong>Gestão Centralizada:</strong> Controle total sobre Apólices, Boletos/Pagamentos, Sinistros e Orçamentos de renovação.</li>
+                <li><strong>Automação Inteligente:</strong> Módulo exclusivo de alertas automáticos para vencimentos (60 e 30 dias).</li>
+                <li><strong>Acessibilidade Direcionada:</strong> Interfaces dedicadas, incluindo um Portal do Cliente (para acompanhamento e upload de apólices) e um Painel Administrativo.</li>
+                <li><strong>Segurança e Confiabilidade:</strong> Eliminação de falhas de segurança no armazenamento de dados sensíveis e mitigação de erros manuais.</li>
+            </ul>
+        </section>
+
+        <div class="cta-container" id="buttonsLoggedOut">
+            <a href="login.php" class="btn">Acessar o Sistema</a>
+            <a href="pages/dashboard.php" class="btn btn-secondary">Visualizar Dashboards</a>
+        </div>
+
+        <div class="cta-container" id="buttonsLoggedIn" style="display: none;">
+            <a href="pages/dashboard.php" class="btn btn-secondary">Visualizar Dashboards</a>
+            <a href="logout.php" class="btn btn-danger">Deslogar</a>
+        </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Verifica o status da sessão ao carregar a página
+        fetch('session_check.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.logado) {
+                    // Usuário está logado
+                    document.getElementById('userInfo').classList.add('show');
+                    document.getElementById('userName').textContent = data.nome;
+                    document.getElementById('buttonsLoggedOut').style.display = 'none';
+                    document.getElementById('buttonsLoggedIn').style.display = 'flex';
+                } else {
+                    // Usuário não está logado
+                    document.getElementById('buttonsLoggedOut').style.display = 'flex';
+                    document.getElementById('buttonsLoggedIn').style.display = 'none';
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao verificar sessão:', error);
+                // Em caso de erro, mostra os botões de não logado
+                document.getElementById('buttonsLoggedOut').style.display = 'flex';
+            });
+    </script>
+
 </body>
 </html>
