@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['usuario_nome'] = $usuario['nome'];
         $_SESSION['usuario_perfil'] = $usuario['perfil'];
 
-        header('Location: index.html');
+        header('Location: pages/home.php');
         exit;
     } else {
         $erro = "Acesso negado: E-mail ou senha incorretos.";
@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <div class="d-grid gap-2 d-md-flex mt-2">
                     <button type="submit" class="btn btn-primary flex-md-grow-1">Entrar</button>
-                    <a href="pages/dashboard.php" class="btn btn-info">Visualizar Dashboards</a>
+                    <a href="/SGS/index.html" class="btn btn-dark"></button>Página Principal</a>
                 </div>
 
                 <div class="text-center mt-3">

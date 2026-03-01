@@ -12,16 +12,14 @@
     <nav class="navbar navbar-dark bg-dark">
         <div class="container-fluid">
             <span class="navbar-brand mb-0 h1">SGS - Gestão de Seguros</span>
-<!--            <div>
-                <a href="login.php" class="btn btn-outline-light">Entrar no Sistema</a>
-            </div>
--->
+            <div>
+                <a href="index.html" class="btn btn-outline-light btn-sm me-2">Página Principal</a>
         </div>
     </nav>
  
     <div class="container mt-5">
         <div class="alert alert-success" role="alert">
-            DASHBOARD Page
+            Home Page
         </div>
         <h1>Bem-vindo ao SGS</h1>
         <p>Sistema centralizado para gestão de seguros corporativos.</p>
