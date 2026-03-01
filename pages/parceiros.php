@@ -1,9 +1,8 @@
 <?php
-// 1. Inicia a sessão e conecta ao banco
 session_start();
 require_once '../config/db.php';
 
-// 2. Verifica se está logado
+// O PORTEIRO
 if (!isset($_SESSION['usuario_id'])) {
     header('Location: ../login.php');
     exit;
@@ -12,33 +11,62 @@ if (!isset($_SESSION['usuario_id'])) {
 $nomeUsuario = $_SESSION['usuario_nome'];
 $mensagem = '';
 
-// 3. LÓGICA DE CADASTRO (Se o formulário for enviado via POST)
+// LÓGICA DE CADASTRO, EDIÇÃO E EXCLUSÃO
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nome = $_POST['nome'];
-    $email = $_POST['email'];
-    $tipo = $_POST['tipo'];
-    $cnpj = $_POST['cnpj'];
-    $telefone = $_POST['telefone'];
+    // Identifica qual botão foi clicado (cadastrar, editar ou excluir)
+    $acao = $_POST['acao'] ?? '';
 
-    try {
-        $sql = "INSERT INTO parceiros (nome, email, tipo, cnpj, telefone) 
-                VALUES (:nome, :email, :tipo, :cnpj, :telefone)";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([
-            ':nome' => $nome,
-            ':email' => $email,
-            ':tipo' => $tipo,
-            ':cnpj' => $cnpj,
-            ':telefone' => $telefone
-        ]);
-        $mensagem = "<div class='alert alert-success alert-dismissible fade show'>Parceiro cadastrado com sucesso!<button type='button' class='btn-close' data-bs-dismiss='alert'></button></div>";
-    } catch (PDOException $e) {
-        // Se der erro (ex: CNPJ duplicado), avisa o usuário
-        $mensagem = "<div class='alert alert-danger alert-dismissible fade show'>Erro ao cadastrar: Verifique se o CNPJ ou E-mail já existem.<button type='button' class='btn-close' data-bs-dismiss='alert'></button></div>";
+    if ($acao === 'cadastrar') {
+        try {
+            $sql = "INSERT INTO parceiros (nome, email, tipo, cnpj, telefone) VALUES (:nome, :email, :tipo, :cnpj, :telefone)";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+                ':nome' => $_POST['nome'],
+                ':email' => $_POST['email'],
+                ':tipo' => $_POST['tipo'],
+                ':cnpj' => $_POST['cnpj'],
+                ':telefone' => $_POST['telefone']
+            ]);
+            $mensagem = "<div class='alert alert-success alert-dismissible fade show'>Parceiro cadastrado com sucesso!<button type='button' class='btn-close' data-bs-dismiss='alert'></button></div>";
+        } catch (PDOException $e) {
+            $mensagem = "<div class='alert alert-danger alert-dismissible fade show'>Erro ao cadastrar: Verifique se o CNPJ ou E-mail já existem.<button type='button' class='btn-close' data-bs-dismiss='alert'></button></div>";
+        }
+
+    } elseif ($acao === 'editar') {
+        try {
+            $sql = "UPDATE parceiros SET nome = :nome, email = :email, tipo = :tipo, cnpj = :cnpj, telefone = :telefone WHERE id = :id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+                ':nome' => $_POST['nome'],
+                ':email' => $_POST['email'],
+                ':tipo' => $_POST['tipo'],
+                ':cnpj' => $_POST['cnpj'],
+                ':telefone' => $_POST['telefone'],
+                ':id' => $_POST['id'] // ID oculto no formulário de edição
+            ]);
+            $mensagem = "<div class='alert alert-success alert-dismissible fade show'>Parceiro atualizado com sucesso!<button type='button' class='btn-close' data-bs-dismiss='alert'></button></div>";
+        } catch (PDOException $e) {
+            $mensagem = "<div class='alert alert-danger alert-dismissible fade show'>Erro ao atualizar. Verifique os dados digitados.<button type='button' class='btn-close' data-bs-dismiss='alert'></button></div>";
+        }
+
+    } elseif ($acao === 'excluir') {
+        try {
+            $sql = "DELETE FROM parceiros WHERE id = :id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([':id' => $_POST['id']]);
+            $mensagem = "<div class='alert alert-success alert-dismissible fade show'>Parceiro excluído com sucesso!<button type='button' class='btn-close' data-bs-dismiss='alert'></button></div>";
+        } catch (PDOException $e) {
+            // Código 23000 do PDO significa violação de restrição de chave estrangeira (O parceiro tem apólices!)
+            if ($e->getCode() == '23000') {
+                $mensagem = "<div class='alert alert-warning alert-dismissible fade show fw-bold'><i class='bi bi-exclamation-triangle'></i> Ação bloqueada: Não é possível excluir este parceiro pois ele possui apólices vinculadas no sistema.<button type='button' class='btn-close' data-bs-dismiss='alert'></button></div>";
+            } else {
+                $mensagem = "<div class='alert alert-danger alert-dismissible fade show'>Erro ao excluir o parceiro.<button type='button' class='btn-close' data-bs-dismiss='alert'></button></div>";
+            }
+        }
     }
 }
 
-// 4. LÓGICA DE LEITURA (Puxa todos os parceiros para a tabela)
+// LÓGICA DE LEITURA (Puxa todos os parceiros)
 $sqlLista = "SELECT * FROM parceiros ORDER BY nome ASC";
 $stmtLista = $pdo->query($sqlLista);
 $listaParceiros = $stmtLista->fetchAll(PDO::FETCH_ASSOC);
@@ -61,7 +89,7 @@ $listaParceiros = $stmtLista->fetchAll(PDO::FETCH_ASSOC);
             <a class="navbar-brand fw-bold" href="home.php"><i class="bi bi-shield-check text-primary"></i> SGS</a>
             <div class="d-flex align-items-center">
                 <span class="text-light me-3 d-none d-md-inline">Olá, <strong><?php echo $nomeUsuario; ?></strong>!</span>
-                <a href="home.php" class="btn btn-outline-light btn-sm me-2">Menu Principal</a>
+                <a href="home.php" class="btn btn-outline-light btn-sm me-2">Voltar ao Início</a>
                 <a href="../logout.php" class="btn btn-danger btn-sm">Sair</a>
             </div>
         </div>
@@ -112,8 +140,23 @@ $listaParceiros = $stmtLista->fetchAll(PDO::FETCH_ASSOC);
                                                 <span class="badge bg-success">Corretora</span>
                                             <?php endif; ?>
                                         </td>
+                                        
                                         <td class="text-end">
-                                            <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i></button>
+                                            <div class="d-flex justify-content-end gap-2">
+                                                
+                                                <button class="btn btn-sm btn-outline-primary" 
+                                                    onclick="preencherModalEditar(<?php echo $p['id']; ?>, '<?php echo htmlspecialchars(addslashes($p['nome'])); ?>', '<?php echo htmlspecialchars(addslashes($p['cnpj'])); ?>', '<?php echo htmlspecialchars(addslashes($p['email'])); ?>', '<?php echo htmlspecialchars(addslashes($p['telefone'])); ?>', '<?php echo $p['tipo']; ?>')"
+                                                    data-bs-toggle="modal" data-bs-target="#modalEditarParceiro" title="Editar">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+
+                                                <form method="POST" action="" onsubmit="return confirm('Tem certeza que deseja excluir o parceiro <?php echo htmlspecialchars(addslashes($p['nome'])); ?>?');">
+                                                    <input type="hidden" name="acao" value="excluir">
+                                                    <input type="hidden" name="id" value="<?php echo $p['id']; ?>">
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Excluir"><i class="bi bi-trash"></i></button>
+                                                </form>
+
+                                            </div>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -137,6 +180,7 @@ $listaParceiros = $stmtLista->fetchAll(PDO::FETCH_ASSOC);
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <form method="POST" action="">
+                    <input type="hidden" name="acao" value="cadastrar">
                     <div class="modal-body">
                         <div class="mb-3">
                             <label class="form-label">Tipo de Parceiro</label>
@@ -173,6 +217,56 @@ $listaParceiros = $stmtLista->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 
+    <div class="modal fade" id="modalEditarParceiro" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-light">
+                    <h5 class="modal-title fw-bold text-primary"><i class="bi bi-pencil-square me-2"></i>Editar Parceiro</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form method="POST" action="">
+                    <input type="hidden" name="acao" value="editar">
+                    <input type="hidden" name="id" id="edit_id">
+                    
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Tipo de Parceiro</label>
+                            <select name="tipo" id="edit_tipo" class="form-select" required>
+                                <option value="seguradora">Seguradora</option>
+                                <option value="corretora">Corretora</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Razão Social / Nome</label>
+                            <input type="text" name="nome" id="edit_nome" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">CNPJ</label>
+                            <input type="text" name="cnpj" id="edit_cnpj" class="form-control" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">E-mail Corporativo</label>
+                                <input type="email" name="email" id="edit_email" class="form-control" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Telefone</label>
+                                <input type="text" name="telefone" id="edit_telefone" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+<script src="../assets/js/parceiros.js"></script>
+
 </body>
 </html>
