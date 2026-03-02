@@ -1,14 +1,12 @@
 <?php
-// 1. Inicia a sessão
+// pages/home.php
 session_start();
 
-// 2. SEGURANÇA: Se não estiver logado, manda pro login
 if (!isset($_SESSION['usuario_id'])) {
     header('Location: ../login.php');
     exit;
 }
 
-// 3. Pega o nome do usuário para exibir na tela
 $nomeUsuario = $_SESSION['usuario_nome'];
 ?>
 
@@ -17,48 +15,110 @@ $nomeUsuario = $_SESSION['usuario_nome'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Área do Usuário - SGS</title>
-    
+    <title>Painel Principal - SGS</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
-<body class="bg-light" style="padding-top: 70px;">
+<body class="bg-light d-flex flex-column min-vh-100">
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="#"><i class="bi bi-shield-check text-primary"></i> SGS</a>
-            
-            <div class="d-flex align-items-center">
-                <span class="text-light me-3">Olá, <strong><?php echo $nomeUsuario; ?></strong>!</span>
-                <a href="../logout.php" class="btn btn-danger btn-sm">Sair</a>
-            </div>
-        </div>
-    </nav>
-
-    <section class="py-5 text-center mt-5">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <i class="bi bi-person-workspace display-1 text-primary mb-3"></i>
-                    <h1 class="display-5 fw-bold text-dark mb-3">Bem-vindo ao SGS</h1>
-                    <p class="lead text-muted mb-5">
-                        Acesse o módulo de Apólices ou Parceiros para consultar, cadastrar ou gerenciar os seguros da sua carteira.
-                    </p>
-                    
-                    <a href="apolices.php" class="btn btn-primary btn-lg">
-                        <i class="bi bi-file-earmark-text me-2"></i> Acessar Módulo de Apólices
-                    </a>
-
-                    <a href="parceiros.php" class="btn btn-primary btn-lg">
-                        <i class="bi bi-person-badge"></i> Acessar Módulo de Parceiros
-                    </a>
-
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="home.php">
+                    <i class="bi bi-shield-check text-primary"></i> SGS
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <?php $paginaAtual = basename($_SERVER['PHP_SELF']); ?>
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item"><a class="nav-link active fw-bold text-white" href="home.php">Painel Principal</a></li>
+                        <li class="nav-item"><a class="nav-link" href="apolices.php">Apólices</a></li>
+                        <li class="nav-item"><a class="nav-link" href="parceiros.php">Parceiros</a></li>
+                    </ul>
+                    <ul class="navbar-nav align-items-lg-center gap-2 mt-3 mt-lg-0">
+                        <?php if (isset($_SESSION['usuario_perfil']) && $_SESSION['usuario_perfil'] === 'admin'): ?>
+                            <li class="nav-item">
+                                <a class="btn btn-admin-highlight btn-sm w-100 shadow-sm" href="admin.php">
+                                    <i class="bi bi-shield-lock-fill me-1"></i> Área Admin
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                        <li class="nav-item dropdown">
+                            <a class="btn btn-outline-light btn-sm dropdown-toggle w-100 text-start text-lg-center" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle"></i> <?php echo htmlspecialchars($_SESSION['usuario_nome']); ?>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                                <li><a class="dropdown-item" href="perfil.php"><i class="bi bi-person-gear"></i> Meu Perfil</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-danger" href="../logout.php"><i class="bi bi-box-arrow-right"></i> Sair</a></li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
             </div>
+        </nav>
+    </header>
+
+    <main class="flex-grow-1 mt-5 pt-5">
+        <div class="container py-4">
+            
+            <div class="mb-5 text-center text-md-start">
+                <h2 class="fw-bold text-dark">Olá, <?php echo htmlspecialchars($nomeUsuario); ?>! 👋</h2>
+                <p class="text-muted lead">Bem-vindo ao seu painel de controle. O que você deseja gerenciar hoje?</p>
+            </div>
+
+            <div class="row g-4 justify-content-center justify-content-md-start">
+                
+                <div class="col-md-6 col-lg-4">
+                    <a href="apolices.php" class="text-decoration-none">
+                        <div class="card h-100 border-0 shadow-sm rounded-4 custom-card p-4 text-center">
+                            <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mx-auto mb-3" style="width: 70px; height: 70px;">
+                                <i class="bi bi-file-earmark-text fs-2"></i>
+                            </div>
+                            <h4 class="fw-bold text-dark">Apólices</h4>
+                            <p class="text-muted small mb-0">Consulte, cadastre e gerencie as vigências dos seguros da sua carteira.</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <a href="parceiros.php" class="text-decoration-none">
+                        <div class="card h-100 border-0 shadow-sm rounded-4 custom-card p-4 text-center">
+                            <div class="bg-success bg-opacity-10 text-success rounded-circle d-inline-flex align-items-center justify-content-center mx-auto mb-3" style="width: 70px; height: 70px;">
+                                <i class="bi bi-buildings fs-2"></i>
+                            </div>
+                            <h4 class="fw-bold text-dark">Parceiros</h4>
+                            <p class="text-muted small mb-0">Gestão completa de seguradoras e corretoras vinculadas ao sistema.</p>
+                        </div>
+                    </a>
+                </div>
+
+                <?php if (isset($_SESSION['usuario_perfil']) && $_SESSION['usuario_perfil'] === 'admin'): ?>
+                <div class="col-md-6 col-lg-4">
+                    <a href="admin.php" class="text-decoration-none">
+                        <div class="card h-100 border-0 shadow-sm rounded-4 custom-card p-4 text-center bg-dark text-white">
+                            <div class="bg-white bg-opacity-25 text-white rounded-circle d-inline-flex align-items-center justify-content-center mx-auto mb-3" style="width: 70px; height: 70px;">
+                                <i class="bi bi-people fs-2"></i>
+                            </div>
+                            <h4 class="fw-bold text-white">Usuários</h4>
+                            <p class="text-light opacity-75 small mb-0">Acesso exclusivo para gerenciamento de contas e perfis de acesso.</p>
+                        </div>
+                    </a>
+                </div>
+                <?php endif; ?>
+
+            </div>
         </div>
-    </section>
+    </main>
+
+    <footer class="bg-dark text-white text-center py-3 mt-auto">
+        <div class="container">
+            <p class="mb-0">&copy; 2026 Sistema de Gestão de Seguros (SGS) - Projeto Acadêmico</p>
+        </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

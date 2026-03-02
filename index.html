@@ -4,113 +4,115 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SGS - Sistema de Gestão de Seguros</title>
-    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body>
+<body class="bg-light">
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="#"><i class="bi bi-shield-check text-primary"></i> SGS</a>
-            
-            <div class="d-flex align-items-center">
-                <div id="navLoggedOut">
-                    <a href="login.php" class="btn btn-primary btn-sm px-4 fw-bold">Entrar no Sistema</a>
-                </div>
-
-                <div id="navLoggedIn" style="display: none;">
-                    <span class="text-light me-3 d-none d-md-inline">Olá, <strong id="userName"></strong>!</span>
-                    <a href="pages/apolices.php" class="btn btn-outline-light btn-sm me-2">Apólices</a>
-                    <a href="logout.php" class="btn btn-danger btn-sm">Sair</a>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="#"><i class="bi bi-shield-check text-primary"></i> SGS</a>
+                <div class="d-flex align-items-center">
+                    <div id="navLoggedOut">
+                        <a href="login.php" class="btn btn-primary btn-sm px-4 fw-bold shadow-sm">Entrar</a>
+                    </div>
+                    <div id="navLoggedIn" class="d-none">
+                        <span class="text-light me-3 d-none d-md-inline">Olá, <strong id="userName"></strong>!</span>
+                        <a href="pages/home.php" class="btn btn-outline-light btn-sm px-3">Ir para o Painel</a>
+                        <a href="logout.php" class="btn btn-danger btn-sm ms-2"><i class="bi bi-box-arrow-right"></i></a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </header>
 
-    <section class="bg-light py-5 mt-4">
-        <div class="container py-5">
-            <div class="row align-items-center g-5">
-                <div class="col-lg-6 text-center text-lg-start">
-                    <h1 class="display-4 fw-bold text-dark mb-3">Gestão de Seguros <span class="text-primary">Simplificada</span></h1>
-                    <p class="lead text-muted mb-4">
-                        A plataforma definitiva para corretoras e empresas. Centralize apólices, acompanhe sinistros em tempo real e elimine o uso de planilhas manuais.
-                    </p>
+    <main>
+        <section class="bg-white py-5 mt-5">
+            <div class="container py-5">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-6 text-center text-lg-start">
+                        
+                        <div class="d-inline-flex align-items-center bg-primary bg-opacity-10 text-primary rounded-pill px-3 py-2 mb-4">
+                            <span class="badge bg-primary rounded-pill me-2">NOVO</span>
+                            <span class="small fw-bold">SGS Versão 1.0 Oficial</span>
+                        </div>
+                        
+                        <h1 class="display-4 fw-bold text-dark mb-3">Gestão de Seguros <br><span class="text-primary">Simplificada</span></h1>
+                        <p class="lead text-muted mb-4 pe-lg-5">
+                            A plataforma definitiva para corretoras e empresas. Centralize apólices, acompanhe sinistros em tempo real e elimine de vez o uso de planilhas manuais.
+                        </p>
+                        
+                        <div id="heroLoggedOut" class="d-flex flex-column flex-sm-row gap-3 justify-content-center justify-content-lg-start mt-4">
+                            <a href="login.php" class="btn btn-primary btn-lg px-5 shadow-sm fw-bold">Acessar Plataforma</a>
+                            <a href="cadastro.php" class="btn btn-outline-dark btn-lg px-4 fw-bold">Criar Conta</a>
+                        </div>
+                        
+                        <div id="heroLoggedIn" class="d-none mt-4">
+                            <a href="pages/home.php" class="btn btn-primary btn-lg px-5 shadow-sm fw-bold">Abrir Meu Painel <i class="bi bi-arrow-right ms-2"></i></a>
+                        </div>
+                    </div>
                     
-                    <div id="heroLoggedOut">
-                        <a href="login.php" class="btn btn-primary btn-lg px-5 shadow-sm fw-bold">Acessar Sistema</a>
+                    <div class="col-lg-6">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Dashboard do Sistema" class="img-fluid rounded-4 shadow-lg border">
                     </div>
-                    <div id="heroLoggedIn" style="display: none;">
-                        <a href="pages/apolices.php" class="btn btn-primary btn-lg px-5 shadow-sm fw-bold">Abrir Meu Painel</a>
-                    </div>
-                </div>
-                
-                <div class="col-lg-6">
-                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Apólice do Sistema" class="img-fluid rounded-4 shadow-lg">
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="py-5 bg-white">
-        <div class="container py-5">
-            <div class="row align-items-center g-5 flex-column-reverse flex-lg-row">
-                <div class="col-lg-6">
-                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80" alt="Organização de Documentos" class="img-fluid rounded-4 shadow">
-                </div>
-                
-                <div class="col-lg-6 text-center text-lg-start">
-                    <h6 class="text-primary fw-bold text-uppercase">O Problema Atual</h6>
-                    <h2 class="fw-bold mb-4">Diga adeus à gestão fragmentada</h2>
-                    <p class="text-muted lead mb-3">
-                        Substitua dezenas de planilhas de Excel por um ambiente em nuvem seguro e centralizado.
-                    </p>
-                    <p class="text-muted">
-                        O SGS foi desenvolvido do zero para resolver exatamente essa dor. Automatizamos alertas de vencimento e centralizamos toda a documentação da sua carteira de clientes com máxima segurança e controle de acessos.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-5 bg-light">
-        <div class="container py-5">
-            <div class="text-center mb-5">
-                <h2 class="fw-bold text-dark">Tudo o que sua corretora precisa</h2>
-                <p class="text-muted lead">Um ecossistema completo para o ciclo de vida das apólices.</p>
-            </div>
-
-            <div class="row g-4 justify-content-center">
-                
-                <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 border-0 shadow-sm p-4 text-center custom-card">
-                        <i class="bi bi-file-earmark-check display-4 text-primary mb-3"></i>
-                        <h5 class="fw-bold">Gestão de Apólices</h5>
-                        <p class="text-muted">Cadastro completo de apólices, coberturas, franquias e prêmios, com histórico de renovações.</p>
+        <section class="py-5 bg-light">
+            <div class="container py-5">
+                <div class="row align-items-center g-5 flex-column-reverse flex-lg-row">
+                    <div class="col-lg-6">
+                        <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80" alt="Organização de Documentos" class="img-fluid rounded-4 shadow-sm border">
+                    </div>
+                    <div class="col-lg-6 text-center text-lg-start">
+                        <h6 class="text-primary fw-bold text-uppercase tracking-wide"><i class="bi bi-lightning-charge-fill me-1"></i>A Solução</h6>
+                        <h2 class="fw-bold mb-4">Diga adeus à gestão fragmentada</h2>
+                        <p class="text-muted lead mb-3">
+                            Substitua dezenas de planilhas de Excel por um ambiente em nuvem seguro e centralizado.
+                        </p>
+                        <p class="text-muted">
+                            O SGS foi desenvolvido do zero para resolver exatamente essa dor. Automatizamos alertas de vencimento e centralizamos toda a documentação da sua carteira de clientes com máxima segurança e controle de acessos.
+                        </p>
                     </div>
                 </div>
-
-                <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 border-0 shadow-sm p-4 text-center custom-card">
-                        <i class="bi bi-bell display-4 text-primary mb-3"></i>
-                        <h5 class="fw-bold">Alertas Inteligentes</h5>
-                        <p class="text-muted">Seja notificado automaticamente 60 e 30 dias antes do vencimento de qualquer apólice.</p>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 border-0 shadow-sm p-4 text-center custom-card">
-                        <i class="bi bi-shield-lock display-4 text-primary mb-3"></i>
-                        <h5 class="fw-bold">Controle e Segurança</h5>
-                        <p class="text-muted">Acompanhamento de sinistros e armazenamento criptografado de dados sensíveis.</p>
-                    </div>
-                </div>
-
             </div>
-        </div>
-    </section>
+        </section>
+        
+        <section class="py-5 bg-white">
+            <div class="container py-5 text-center">
+                <div class="mb-5">
+                    <h2 class="fw-bold text-dark">Tudo o que você precisa</h2>
+                    <p class="text-muted lead">Um ecossistema completo para o ciclo de vida das apólices.</p>
+                </div>
+                <div class="row g-4 justify-content-center">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100 border-0 shadow-sm p-4 text-center custom-card rounded-4 bg-light">
+                            <i class="bi bi-file-earmark-check display-4 text-primary mb-3"></i>
+                            <h5 class="fw-bold">Gestão de Apólices</h5>
+                            <p class="text-muted small">Cadastro completo de apólices, coberturas, franquias e prêmios, com histórico de renovações.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100 border-0 shadow-sm p-4 text-center custom-card rounded-4 bg-light">
+                            <i class="bi bi-bell display-4 text-primary mb-3"></i>
+                            <h5 class="fw-bold">Alertas Inteligentes</h5>
+                            <p class="text-muted small">Acompanhamento e visualização facilitada para nunca perder prazos de vencimentos.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100 border-0 shadow-sm p-4 text-center custom-card rounded-4 bg-light">
+                            <i class="bi bi-shield-lock display-4 text-primary mb-3"></i>
+                            <h5 class="fw-bold">Controle e Segurança</h5>
+                            <p class="text-muted small">Acompanhamento centralizado e armazenamento de arquivos e dados sensíveis.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <footer class="bg-dark text-center text-light py-4 mt-auto">
         <div class="container">
@@ -119,21 +121,7 @@
         </div>
     </footer>
 
-    <script>
-        fetch('session_check.php')
-            .then(response => response.json())
-            .then(data => {
-                if (data.logado) {
-                    document.getElementById('navLoggedOut').style.display = 'none';
-                    document.getElementById('navLoggedIn').style.display = 'block';
-                    document.getElementById('heroLoggedOut').style.display = 'none';
-                    document.getElementById('heroLoggedIn').style.display = 'block';
-                    document.getElementById('userName').textContent = data.nome;
-                }
-            })
-            .catch(error => console.log('Usuário não logado. Exibindo página padrão.'));
-    </script>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
+    <script src="assets/js/index.js"></script>
+</body>
 </html>

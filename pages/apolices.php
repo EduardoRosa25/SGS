@@ -110,26 +110,75 @@ $listaApolices = $stmtLista->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestão de Apólices - SGS</title>
+    <title>Minhas Apólices - SGS</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
-<body class="bg-light" style="padding-top: 70px;">
+<body class="bg-light d-flex flex-column min-vh-100">
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="home.php"><i class="bi bi-shield-check text-primary"></i> SGS</a>
-            <div class="d-flex align-items-center">
-                <span class="text-light me-3 d-none d-md-inline">Olá, <strong><?php echo $nomeUsuario; ?></strong>!</span>
-                <a href="home.php" class="btn btn-outline-light btn-sm me-2">Voltar</a>
-                <a href="../logout.php" class="btn btn-danger btn-sm">Sair</a>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="home.php">
+                    <i class="bi bi-shield-check text-primary"></i> SGS
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    
+                    <?php 
+                        // Descobre qual é a página que o usuário está acessando agora
+                        $paginaAtual = basename($_SERVER['PHP_SELF']); 
+                    ?>
+
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link <?php echo ($paginaAtual == 'home.php') ? 'active fw-bold text-white' : ''; ?>" href="home.php">Painel Principal</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link <?php echo ($paginaAtual == 'apolices.php') ? 'active fw-bold text-white' : ''; ?>" href="apolices.php">Apólices</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link <?php echo ($paginaAtual == 'parceiros.php') ? 'active fw-bold text-white' : ''; ?>" href="parceiros.php">Parceiros</a>
+                        </li>
+                    </ul>
+                    
+                    <ul class="navbar-nav align-items-lg-center gap-2 mt-3 mt-lg-0">
+                        <?php if (isset($_SESSION['usuario_perfil']) && $_SESSION['usuario_perfil'] === 'admin'): ?>
+                            <li class="nav-item">
+                                <a class="btn btn-admin-highlight btn-sm w-100 shadow-sm <?php echo ($paginaAtual == 'admin.php') ? 'border-white' : ''; ?>" href="admin.php">
+                                    <i class="bi bi-shield-lock-fill me-1"></i> Área Admin
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                        
+                        <li class="nav-item dropdown">
+                            <a class="btn btn-outline-light btn-sm dropdown-toggle w-100 text-start text-lg-center <?php echo ($paginaAtual == 'perfil.php') ? 'active' : ''; ?>" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle"></i> <?php echo htmlspecialchars($_SESSION['usuario_nome']); ?>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                                <li><a class="dropdown-item" href="perfil.php"><i class="bi bi-person-gear"></i> Meu Perfil</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-danger" href="../logout.php"><i class="bi bi-box-arrow-right"></i> Sair</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </header>
 
-    <div class="container mt-4">
-        <div class="d-flex justify-content-between align-items-center mb-4">
+    <main class="container mt-5 pt-5 flex-grow-1">
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="home.php">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Minhas Apólices</li>
+            </ol>
+        </nav>
+        <div class="d-flex justify-content-between align-items-center mb-4 mt-3">
             <div>
                 <h2 class="fw-bold text-dark mb-0"><i class="bi bi-file-earmark-text text-primary me-2"></i>Minhas Apólices</h2>
                 <p class="text-muted mb-0">Controle de vigências e emissões da sua carteira.</p>
@@ -140,6 +189,15 @@ $listaApolices = $stmtLista->fetchAll(PDO::FETCH_ASSOC);
         </div>
 
         <?php echo $mensagem; ?>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="input-group shadow-sm">
+                    <span class="input-group-text bg-primary text-white"><i class="bi bi-search"></i></span>
+                    <input type="text" id="inputBuscaApolice" class="form-control" placeholder="Buscar apólice por número ou seguradora...">
+                </div>
+            </div>
+        </div>
 
         <div class="card border-0 shadow-sm">
             <div class="card-body p-0">
@@ -156,7 +214,7 @@ $listaApolices = $stmtLista->fetchAll(PDO::FETCH_ASSOC);
                                 <th class="text-end">Ações</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="tabelaApolicesBody">
                             <?php if (count($listaApolices) > 0): ?>
                                 <?php foreach ($listaApolices as $a): ?>
                                     <tr>
@@ -218,7 +276,13 @@ $listaApolices = $stmtLista->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             </div>
         </div>
-    </div>
+    </main>
+
+    <footer class="bg-dark text-white text-center py-3 mt-auto">
+        <div class="container">
+            <p class="mb-0 small">&copy; 2026 Sistema de Gestão de Seguros (SGS) - Projeto Acadêmico</p>
+        </div>
+    </footer>
 
     <div class="modal fade" id="modalNovaApolice" tabindex="-1">
         <div class="modal-dialog modal-lg">

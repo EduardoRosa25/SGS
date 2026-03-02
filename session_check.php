@@ -1,4 +1,10 @@
 <?php
+/**
+ * ============================================================================
+ * SESSION_CHECK.PHP
+ * API para verificação de estado de autenticação via Front-end.
+ * ============================================================================
+ */
 session_start();
 header('Content-Type: application/json');
 

@@ -1,23 +1,50 @@
-/* =============================
-   PÁGINA INICIAL (INDEX) - 100% RESPONSIVO
-   ============================= */
 
-/* Protege o topo da página para não ficar escondido atrás do menu fixo */
+/* ==========================================================================
+   1. GERAL & PÁGINA INICIAL
+   ========================================================================== */
+
+main {
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
+
+/* Estilo para Breadcrumbs (Caminho de navegação) */
+.breadcrumb-item a {
+    text-decoration: none;
+    color: #0d6efd;
+}
+
+.breadcrumb-item.active {
+    color: #6c757d;
+}
+
+/* Padronização de botões de ação em tabelas */
+.btn-action {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}
+
+/* Rodapé fixado na parte inferior */
+footer {
+    background-color: #212529;
+    color: #f8f9fa;
+    margin-top: auto;
+}
+/* Espaçamento superior para compensar a barra de navegação fixa */
 body {
     padding-top: 60px; 
 }
 
-/* Efeito de flutuar ao passar o mouse nos cards */
+/* Animação de elevação (hover) para os cards */
 .custom-card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .custom-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;
 }
 
-
-/* Cards de Funcionalidades */
+/* Estilização dos cards de funcionalidades */
 .feature-card {
     border: 1px solid #eaeaea;
     border-radius: 10px;
@@ -29,13 +56,15 @@ body {
     box-shadow: 0 15px 30px rgba(0,0,0,0.08);
     border-color: #0d6efd;
 }
+
+/* Formatação dos ícones internos dos cards */
 .feature-icon {
     font-size: 3rem;
     color: #0d6efd;
     margin-bottom: 20px;
 }
 
-/* Seções intercaladas de texto e imagem */
+/* Estrutura das seções de conteúdo (texto e imagem) */
 .content-section {
     padding: 80px 0;
 }
@@ -45,39 +74,62 @@ body {
     max-width: 100%;
 }
 
-/* =============================
-   LOGIN
-   ============================= */
-
-/* Fundo geral da página */
-body {
-    background-color: #e9ecef; /* Um cinza bem suave, padrão de sistemas */
-    height: 100vh; /* Ocupa 100% da altura da tela */
-    display: flex;
-    flex-direction: column; /* Organiza: Menu em cima, Resto embaixo */
+/* Destaque para o botão de Administrador */
+.btn-admin-highlight {
+    background-color: #dc3545; /* Vermelho vibrante para atenção */
+    border-color: #dc3545;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-/* Ajuste do container de login para centralizar */
-.login-container {
-    flex: 1; /* Ocupa todo o espaço que sobrar abaixo do menu */
+.btn-admin-highlight:hover {
+    background-color: #a71d2a;
+    border-color: #891621;
+    color: #fff;
+}
+
+/* Separador visual no menu */
+.nav-separator {
+    border-left: 2px solid #495057; /* Linha vertical cinza */
+    height: 24px;
+    margin: 0 15px;
+    align-self: center;
+}
+
+/* ==========================================================================
+   2. TELA DE LOGIN & LAYOUTS CENTRALIZADOS
+   ========================================================================== */
+
+/* Configuração do fundo e estrutura flexível da página */
+body {
+    background-color: #e9ecef;
+    height: 100vh;
     display: flex;
-    justify-content: center; /* Centraliza na horizontal */
-    align-items: center;     /* Centraliza na vertical */
+    flex-direction: column;
+}
+
+/* Container de alinhamento para centralizar elementos na tela */
+.login-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 20px;
 }
 
-/* A "Caixa" do login (O seu antigo .login-box) */
+/* Caixa principal do formulário de login */
 .card-login {
     width: 100%;
-    max-width: 400px; /* Não deixa ficar gigante em telas grandes */
-    background: white;
+    max-width: 400px;
+    background: #ffffff;
     padding: 2rem;
     border-radius: 10px;
-    /* Sombra suave para dar profundidade (efeito 3D) */
     box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
 }
 
-/* Personalização do Menu para ficar escuro e profissional */
+/* Customização de cor da barra de navegação */
 .navbar-custom {
     background-color: #1a1a1a;
 }
