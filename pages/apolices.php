@@ -114,6 +114,7 @@ $listaApolices = $stmtLista->fetchAll(PDO::FETCH_ASSOC);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="../assets/js/theme.js"></script>
 </head>
 <body class="bg-light d-flex flex-column min-vh-100">
 
@@ -146,6 +147,28 @@ $listaApolices = $stmtLista->fetchAll(PDO::FETCH_ASSOC);
                     </ul>
                     
                     <ul class="navbar-nav align-items-lg-center gap-2 mt-3 mt-lg-0">
+                        <li class="nav-item dropdown me-2">
+                            <a class="btn btn-outline-light btn-sm dropdown-toggle d-flex align-items-center mt-3 mt-lg-0" href="#" id="bd-theme" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-circle-half theme-icon-active me-2"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="bd-theme">
+                                <li>
+                                    <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light">
+                                        <i class="bi bi-sun-fill me-2 opacity-50 theme-icon"></i> Claro
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark">
+                                        <i class="bi bi-moon-stars-fill me-2 opacity-50 theme-icon"></i> Escuro
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto">
+                                        <i class="bi bi-circle-half me-2 opacity-50 theme-icon"></i> Sistema
+                                    </button>
+                                </li>
+                            </ul>
+                        </li>
                         <?php if (isset($_SESSION['usuario_perfil']) && $_SESSION['usuario_perfil'] === 'admin'): ?>
                             <li class="nav-item">
                                 <a class="btn btn-admin-highlight btn-sm w-100 shadow-sm <?php echo ($paginaAtual == 'admin.php') ? 'border-white' : ''; ?>" href="admin.php">
@@ -296,16 +319,17 @@ $listaApolices = $stmtLista->fetchAll(PDO::FETCH_ASSOC);
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Número da Apólice</label>
-                                <input type="text" name="numero_apolice" class="form-control" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
                                 <label class="form-label">Tipo de Seguro</label>
-                                <select name="tipo_seguro" class="form-select" required>
+                                <select name="tipo_seguro" id="novo_tipo_seguro" class="form-select" required>
+                                    <option value="" selected disabled>Selecione o ramo...</option>
                                     <option value="Auto">Auto</option><option value="Vida">Vida</option>
                                     <option value="RCG">RCG</option><option value="Cyber">Cyber</option>
                                     <option value="Riscos Operacionais">Riscos Operacionais</option><option value="D&O">D&O</option>
                                 </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Número da Apólice <span class="badge bg-secondary ms-1">Auto</span></label>
+                                <input type="text" name="numero_apolice" id="novo_numero_apolice" class="form-control bg-light text-primary fw-bold" placeholder="Aguardando ramo..." readonly required>
                             </div>
                         </div>
                         <div class="row">
@@ -379,16 +403,16 @@ $listaApolices = $stmtLista->fetchAll(PDO::FETCH_ASSOC);
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Número da Apólice</label>
-                                <input type="text" name="numero_apolice" id="edit_numero_apolice" class="form-control" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
                                 <label class="form-label">Tipo de Seguro</label>
                                 <select name="tipo_seguro" id="edit_tipo_seguro" class="form-select" required>
                                     <option value="Auto">Auto</option><option value="Vida">Vida</option>
                                     <option value="RCG">RCG</option><option value="Cyber">Cyber</option>
                                     <option value="Riscos Operacionais">Riscos Operacionais</option><option value="D&O">D&O</option>
                                 </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Número da Apólice <i class="bi bi-lock-fill text-muted ms-1" title="Não é possível alterar o número de uma apólice já emitida"></i></label>
+                                <input type="text" name="numero_apolice" id="edit_numero_apolice" class="form-control bg-light fw-bold text-muted" readonly required>
                             </div>
                         </div>
                         <div class="row">
