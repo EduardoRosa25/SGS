@@ -283,7 +283,7 @@ $listaParceiros = $stmtLista->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                         <div class="mb-3">
                             <label class="form-label">CNPJ</label>
-                            <input type="text" name="cnpj" class="form-control" placeholder="00.000.000/0000-00" required>
+                            <input type="text" name="cnpj" class="form-control" placeholder="00.000.000/0000-00" max-length="18" required>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -292,7 +292,7 @@ $listaParceiros = $stmtLista->fetchAll(PDO::FETCH_ASSOC);
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Telefone</label>
-                                <input type="text" name="telefone" class="form-control" placeholder="(00) 0000-0000">
+                                <input type="text" name="telefone" class="form-control" placeholder="(00) 0000-0000" max-length="15">
                             </div>
                         </div>
                     </div>
@@ -330,7 +330,7 @@ $listaParceiros = $stmtLista->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                         <div class="mb-3">
                             <label class="form-label">CNPJ</label>
-                            <input type="text" name="cnpj" id="edit_cnpj" class="form-control" required>
+                            <input type="text" name="cnpj" id="edit_cnpj" class="form-control" max-length="18" required>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -339,7 +339,7 @@ $listaParceiros = $stmtLista->fetchAll(PDO::FETCH_ASSOC);
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Telefone</label>
-                                <input type="text" name="telefone" id="edit_telefone" class="form-control">
+                                <input type="text" name="telefone" id="edit_telefone" class="form-control" max-length="15">
                             </div>
                         </div>
                     </div>

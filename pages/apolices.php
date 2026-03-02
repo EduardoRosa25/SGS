@@ -319,16 +319,17 @@ $listaApolices = $stmtLista->fetchAll(PDO::FETCH_ASSOC);
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Número da Apólice</label>
-                                <input type="text" name="numero_apolice" class="form-control" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
                                 <label class="form-label">Tipo de Seguro</label>
-                                <select name="tipo_seguro" class="form-select" required>
+                                <select name="tipo_seguro" id="novo_tipo_seguro" class="form-select" required>
+                                    <option value="" selected disabled>Selecione o ramo...</option>
                                     <option value="Auto">Auto</option><option value="Vida">Vida</option>
                                     <option value="RCG">RCG</option><option value="Cyber">Cyber</option>
                                     <option value="Riscos Operacionais">Riscos Operacionais</option><option value="D&O">D&O</option>
                                 </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Número da Apólice <span class="badge bg-secondary ms-1">Auto</span></label>
+                                <input type="text" name="numero_apolice" id="novo_numero_apolice" class="form-control bg-light text-primary fw-bold" placeholder="Aguardando ramo..." readonly required>
                             </div>
                         </div>
                         <div class="row">
@@ -402,16 +403,16 @@ $listaApolices = $stmtLista->fetchAll(PDO::FETCH_ASSOC);
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Número da Apólice</label>
-                                <input type="text" name="numero_apolice" id="edit_numero_apolice" class="form-control" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
                                 <label class="form-label">Tipo de Seguro</label>
                                 <select name="tipo_seguro" id="edit_tipo_seguro" class="form-select" required>
                                     <option value="Auto">Auto</option><option value="Vida">Vida</option>
                                     <option value="RCG">RCG</option><option value="Cyber">Cyber</option>
                                     <option value="Riscos Operacionais">Riscos Operacionais</option><option value="D&O">D&O</option>
                                 </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Número da Apólice <i class="bi bi-lock-fill text-muted ms-1" title="Não é possível alterar o número de uma apólice já emitida"></i></label>
+                                <input type="text" name="numero_apolice" id="edit_numero_apolice" class="form-control bg-light fw-bold text-muted" readonly required>
                             </div>
                         </div>
                         <div class="row">

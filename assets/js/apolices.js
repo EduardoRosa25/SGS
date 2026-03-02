@@ -112,4 +112,40 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
         });
     }
+
+    // --- LÓGICA DE GERAÇÃO AUTOMÁTICA DO NÚMERO DA APÓLICE ---
+    const selectTipoNovo = document.getElementById('novo_tipo_seguro');
+    const inputNumeroNovo = document.getElementById('novo_numero_apolice');
+
+    if (selectTipoNovo && inputNumeroNovo) {
+        function gerarNumeroApolice() {
+            // Se não tiver tipo selecionado, deixa em branco
+            if (!selectTipoNovo.value) {
+                inputNumeroNovo.value = '';
+                return;
+            }
+
+            // Dicionário de Prefixos (Fácil identificação visual)
+            const prefixos = {
+                'Auto': 'AUT',
+                'Vida': 'VID',
+                'RCG': 'RCG',
+                'Cyber': 'CYB',
+                'Riscos Operacionais': 'ROP',
+                'D&O': 'DNO'
+            };
+
+            let prefixo = prefixos[selectTipoNovo.value] || 'SEG';
+            let data = new Date();
+            let ano = data.getFullYear();
+            let mes = String(data.getMonth() + 1).padStart(2, '0'); // Garante 2 dígitos (ex: 03)
+            let aleatorio = Math.floor(10000 + Math.random() * 90000); // Número de 5 dígitos
+            
+            // Monta o código final (Ex: AUT-202603-54321)
+            inputNumeroNovo.value = `${prefixo}-${ano}${mes}-${aleatorio}`;
+        }
+
+        // Gera o número toda vez que o usuário trocar o tipo de seguro
+        selectTipoNovo.addEventListener('change', gerarNumeroApolice);
+    }
 });
