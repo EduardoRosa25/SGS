@@ -1,5 +1,5 @@
 <?php
-// pages/admin.php
+// pages/relatorios.php
 session_start();
 require_once '../config/db.php';
 
@@ -8,38 +8,6 @@ if (!isset($_SESSION['usuario_id']) || !isset($_SESSION['usuario_perfil']) || $_
     header('Location: home.php');
     exit;
 }
-
-$mensagem = '';
-$tipoMensagem = '';
-
-// Exclusão de usuário
-if (isset($_GET['excluir_id'])) {
-    $idParaExcluir = $_GET['excluir_id'];
-    
-    if ($idParaExcluir == $_SESSION['usuario_id']) {
-        $mensagem = "Você não pode excluir a si mesmo por aqui.";
-        $tipoMensagem = "warning";
-    } else {
-        $sql = "DELETE FROM usuarios WHERE id = ?";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(1, $idParaExcluir);
-        
-        try {
-            if ($stmt->execute()) {
-                $mensagem = "Usuário excluído com sucesso!";
-                $tipoMensagem = "success";
-            }
-        } catch (PDOException $e) {
-            $mensagem = "Erro: Este usuário possui registros vinculados (como apólices) e não pode ser excluído.";
-            $tipoMensagem = "danger";
-        }
-    }
-}
-
-// Prepara a consulta para listar os usuários
-$sql = "SELECT id, nome, email, perfil, data_cadastro FROM usuarios ORDER BY nome ASC";
-$stmtLista = $pdo->prepare($sql);
-$stmtLista->execute();
 ?>
 
 <!DOCTYPE html>
@@ -47,7 +15,7 @@ $stmtLista->execute();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestão de Usuários - SGS</title>
+    <title>Exportação de Dados - SGS</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../assets/css/style.css">
@@ -66,8 +34,6 @@ $stmtLista->execute();
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     
-                    <?php $paginaAtual = basename($_SERVER['PHP_SELF']); ?>
-
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item"><a class="nav-link" href="home.php">Painel Principal</a></li>
                         <li class="nav-item"><a class="nav-link" href="apolices.php">Apólices</a></li>
@@ -98,13 +64,11 @@ $stmtLista->execute();
                             </ul>
                         </li>
                         
-                        <?php if (isset($_SESSION['usuario_perfil']) && $_SESSION['usuario_perfil'] === 'admin'): ?>
-                            <li class="nav-item">
-                                <a class="btn btn-admin-highlight btn-sm w-100 shadow-sm border-white" href="admin.php">
-                                    <i class="bi bi-shield-lock-fill me-1"></i> Área Admin
-                                </a>
-                            </li>
-                        <?php endif; ?>
+                        <li class="nav-item">
+                            <a class="btn btn-admin-highlight btn-sm w-100 shadow-sm border-white" href="admin.php">
+                                <i class="bi bi-shield-lock-fill me-1"></i> Área Admin
+                            </a>
+                        </li>
                         
                         <li class="nav-item dropdown">
                             <a class="btn btn-outline-light btn-sm dropdown-toggle w-100 text-start text-lg-center" href="#" role="button" data-bs-toggle="dropdown">
@@ -133,12 +97,12 @@ $stmtLista->execute();
 
         <ul class="nav nav-pills mb-4 border-bottom pb-3">
             <li class="nav-item">
-                <a class="nav-link active fw-bold" aria-current="page" href="admin.php">
+                <a class="nav-link text-muted" href="admin.php">
                     <i class="bi bi-people-fill me-1"></i> Gestão de Usuários
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-muted" href="relatorios.php">
+                <a class="nav-link active fw-bold" aria-current="page" href="relatorios.php">
                     <i class="bi bi-file-earmark-spreadsheet-fill me-1"></i> Exportação de Dados
                 </a>
             </li>
@@ -146,71 +110,41 @@ $stmtLista->execute();
 
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
-                <h2 class="fw-bold text-dark mb-0">Contas do Sistema</h2>
-                <p class="text-muted mb-0">Controle de acessos e perfis.</p>
+                <h2 class="fw-bold text-dark mb-0">Relatórios e Exportação</h2>
+                <p class="text-muted mb-0">Gere planilhas consolidadas a partir do banco de dados.</p>
             </div>
         </div>
-        
-        <?php if ($mensagem): ?>
-            <div class="alert alert-<?php echo $tipoMensagem; ?> alert-dismissible fade show" role="alert">
-                <?php echo $mensagem; ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php endif; ?>
 
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <div class="input-group shadow-sm">
-                    <span class="input-group-text bg-primary text-white"><i class="bi bi-search"></i></span>
-                    <input type="text" id="inputBuscaUsuario" class="form-control" placeholder="Buscar usuário por nome ou e-mail...">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm rounded-4 mb-4">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
+                            <div class="bg-success bg-opacity-10 text-success rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 60px; height: 60px;">
+                                <i class="bi bi-file-earmark-excel fs-2"></i>
+                            </div>
+                            <div>
+                                <h5 class="fw-bold text-dark mb-1">Bases de Dados (CSV)</h5>
+                                <p class="text-muted small mb-0">Arquivos compatíveis com Microsoft Excel, Google Sheets e LibreOffice.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex flex-column gap-3 mt-3">
+                            <a href="exportar.php?tipo=usuarios" class="btn btn-primary btn-lg text-start fw-bold shadow-sm">
+                                <i class="bi bi-people me-2"></i> Download: Base de Usuários
+                            </a>
+                            <a href="exportar.php?tipo=parceiros" class="btn btn-info text-white btn-lg text-start fw-bold shadow-sm">
+                                <i class="bi bi-buildings me-2"></i> Download: Base de Parceiros
+                            </a>
+                            <a href="exportar.php?tipo=apolices" class="btn btn-success btn-lg text-start fw-bold shadow-sm">
+                                <i class="bi bi-file-earmark-text me-2"></i> Download: Base de Apólices
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="card border-0 shadow-sm">
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th>ID</th>
-                                <th>Nome</th>
-                                <th>E-mail</th>
-                                <th>Perfil</th>
-                                <th>Data Cadastro</th>
-                                <th class="text-end">Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabelaUsuariosBody" data-usuariologado="<?php echo $_SESSION['usuario_id']; ?>">
-                            <?php while ($user = $stmtLista->fetch(PDO::FETCH_ASSOC)): ?>
-                            <tr>
-                                <td>#<?php echo $user['id']; ?></td>
-                                <td class="fw-bold"><?php echo htmlspecialchars($user['nome']); ?></td>
-                                <td><?php echo htmlspecialchars($user['email']); ?></td>
-                                <td>
-                                    <span class="badge bg-<?php echo ($user['perfil'] === 'admin') ? 'danger' : 'secondary'; ?>">
-                                        <?php echo strtoupper($user['perfil']); ?>
-                                    </span>
-                                </td>
-                                <td><?php echo date('d/m/Y H:i', strtotime($user['data_cadastro'])); ?></td>
-                                <td class="text-end">
-                                    <div class="d-flex justify-content-end gap-2">
-                                        <?php if ($user['id'] != $_SESSION['usuario_id']): ?>
-                                            <a href="admin.php?excluir_id=<?php echo $user['id']; ?>" class="btn btn-sm btn-outline-danger" title="Excluir" onclick="return confirm('Excluir este usuário permanentemente?');">
-                                                <i class="bi bi-trash"></i>
-                                            </a>
-                                        <?php else: ?>
-                                            <span class="text-muted small align-self-center">Você</span>
-                                        <?php endif; ?>
-                                    </div>
-                                </td>
-                            </tr>
-                            <?php endwhile; ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
     </main>
 
     <footer class="bg-dark text-white text-center py-3 mt-4">
@@ -220,6 +154,5 @@ $stmtLista->execute();
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/js/admin.js"></script>
 </body>
 </html>
