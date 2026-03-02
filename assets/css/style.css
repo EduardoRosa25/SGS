@@ -133,3 +133,45 @@ body {
 .navbar-custom {
     background-color: #1a1a1a;
 }
+
+
+/* ==========================================================================
+   DARK MODE OVERRIDES (Adaptação Inteligente)
+   ========================================================================== */
+[data-bs-theme="dark"] body {
+    background-color: #212529 !important;
+}
+
+/* Inverte as cores forçadas no HTML */
+[data-bs-theme="dark"] .bg-light,
+[data-bs-theme="dark"] .bg-white {
+    background-color: #2b3035 !important;
+    color: #f8f9fa !important;
+}
+
+[data-bs-theme="dark"] .text-dark {
+    color: #f8f9fa !important;
+}
+
+/* Escurece os Cards, Modais e Telas de Login */
+[data-bs-theme="dark"] .card,
+[data-bs-theme="dark"] .custom-card,
+[data-bs-theme="dark"] .card-login,
+[data-bs-theme="dark"] .modal-content {
+    background-color: #2b3035 !important;
+    border-color: #495057 !important;
+    color: #f8f9fa !important;
+}
+
+/* Escurece os cabeçalhos das tabelas */
+[data-bs-theme="dark"] .table-light {
+    --bs-table-bg: #2b3035;
+    --bs-table-color: #f8f9fa;
+    border-color: #495057;
+}
+
+[data-bs-theme="dark"] .modal-header.bg-light,
+[data-bs-theme="dark"] .modal-footer.bg-light {
+    background-color: #212529 !important;
+    border-color: #495057 !important;
+}

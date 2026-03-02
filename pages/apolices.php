@@ -114,6 +114,7 @@ $listaApolices = $stmtLista->fetchAll(PDO::FETCH_ASSOC);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="../assets/js/theme.js"></script>
 </head>
 <body class="bg-light d-flex flex-column min-vh-100">
 
@@ -146,6 +147,28 @@ $listaApolices = $stmtLista->fetchAll(PDO::FETCH_ASSOC);
                     </ul>
                     
                     <ul class="navbar-nav align-items-lg-center gap-2 mt-3 mt-lg-0">
+                        <li class="nav-item dropdown me-2">
+                            <a class="btn btn-outline-light btn-sm dropdown-toggle d-flex align-items-center mt-3 mt-lg-0" href="#" id="bd-theme" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-circle-half theme-icon-active me-2"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="bd-theme">
+                                <li>
+                                    <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light">
+                                        <i class="bi bi-sun-fill me-2 opacity-50 theme-icon"></i> Claro
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark">
+                                        <i class="bi bi-moon-stars-fill me-2 opacity-50 theme-icon"></i> Escuro
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto">
+                                        <i class="bi bi-circle-half me-2 opacity-50 theme-icon"></i> Sistema
+                                    </button>
+                                </li>
+                            </ul>
+                        </li>
                         <?php if (isset($_SESSION['usuario_perfil']) && $_SESSION['usuario_perfil'] === 'admin'): ?>
                             <li class="nav-item">
                                 <a class="btn btn-admin-highlight btn-sm w-100 shadow-sm <?php echo ($paginaAtual == 'admin.php') ? 'border-white' : ''; ?>" href="admin.php">
