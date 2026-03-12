@@ -82,5 +82,4 @@ CREATE TABLE sinistros (
 
  -- ADMIN INICIAL p / teste
 INSERT INTO usuarios (nome, email, senha, perfil) VALUES 
---('Admin', 'admin@sgs.com', '123456', 'admin');
 ('Admin', 'admin@sgs.com', '$2y$10$eZpXErHTJHo0VR/Aesx15uxE0U5gQivU0m7Dc2ficd3EQ2xNx0YQO', 'admin');
