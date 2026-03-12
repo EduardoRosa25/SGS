@@ -38,6 +38,8 @@ CREATE TABLE apolices (
     FOREIGN KEY (seguradora_id) REFERENCES parceiros(id),
     FOREIGN KEY (corretora_id) REFERENCES parceiros(id)
 );
+/*
+-- Essa funcionalidades serão adicionadas no futuro.
 
 CREATE TABLE boletos (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -76,6 +78,7 @@ CREATE TABLE sinistros (
     arquivos_sinistro VARCHAR(255), -- Caminho para o arquivo do comprovante
     FOREIGN KEY (apolice_id) REFERENCES apolices(id) 
 );
+*/
 
  -- ADMIN INICIAL p / teste
 INSERT INTO usuarios (nome, email, senha, perfil) VALUES 
