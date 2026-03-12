@@ -6,7 +6,7 @@
  * ============================================================================
  */
 
-// 1. OBRIGATÓRIO: Iniciar a sessão para podermos logar o usuário depois!
+// 1. Inicio de sessão, para podermos logar o usuário depois!
 session_start(); 
 require_once 'config/db.php';
 
@@ -21,10 +21,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $perfil = $_POST['perfil'];
 
     /* --- Criptografia de Credenciais --- */
+    // É usada senha Hash (Não armazena senha do usuário no Banco de Dados).
     $senha_hash = password_hash($senha_pura, PASSWORD_DEFAULT);
 
     try {
-        /* --- Persistência de Dados com Prepared Statements --- */
+        /* --- Persistência de Dados com "Prepared Statements" --- */
         $sql = "INSERT INTO usuarios (nome, email, senha, perfil) VALUES (:nome, :email, :senha, :perfil)";
         $stmt = $pdo->prepare($sql);
         
@@ -35,10 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':perfil' => $perfil
         ]);
 
-        /* ================================================================
-           A MÁGICA DO LOGIN AUTOMÁTICO
-           ================================================================ */
-        // 2. Recupera o ID numérico que o banco de dados acabou de gerar para esse usuário
+        // 2. Recupera o ID numérico que o banco de dados acabou de gerar para esse usuário (Login Automático)
         $novo_id_usuario = $pdo->lastInsertId();
 
         // 3. Preenche a sessão da mesma forma que o arquivo login.php faz!
